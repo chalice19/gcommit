@@ -2,6 +2,8 @@ import notify2
 import sys
 import os
 
+import asyncio
+
 import cv2
 import mediapipe as mp
 
@@ -15,7 +17,7 @@ def make_commit():
     os.system('git commit -m "Changes in ' + directory + ' pushed by gcommit"')
     os.system('git push')
 
-    notify2.init('app name')
+    notify2.init('gcommit')
     n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
     n.show()
 
@@ -43,7 +45,8 @@ while True:
                     cv2.circle(image, (cx, cy), 25, (255, 0, 255), cv2.FILLED)
                     if (cy < 0.1 * h):
                         if (first_enter):
-                            make_commit()
+                            print('pushing now')
+                            asyncio.get_event_loop().run_in_executor(None, make_commit())
                             first_enter = False
                     else:
                         first_enter = True
