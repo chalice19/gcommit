@@ -23,6 +23,7 @@ def make_commit():
     os.system('git add ' + directory)
     os.system('git commit -m "Changes in ' + directory + ' pushed by gcommit"')
     os.system('git push')
+    print('gcommit: done commit and push of ' + directory)
 
     notify2.init('app name')
     n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
