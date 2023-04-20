@@ -1,4 +1,4 @@
-import notify2
+# import notify2
 import sys
 import os
 
