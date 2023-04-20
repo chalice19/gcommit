@@ -58,26 +58,26 @@ while True:
             for id, lm in enumerate(handLms.landmark):
                 h, w, c = image.shape
                 cx, cy = int(lm.x * w), int(lm.y * h)
-                if id==0:
-                    pos0=(cx,cy)
-                if id==12:
-                    pos1=(cx, cy)
+                if id == 0:
+                    pos0 = (cx, cy)
+                if id == 12:
+                    pos1 = (cx, cy)
                 if id == 8:
                     pos_pointer = (cx, cy)
 
-            distance=(pos0[0]-pos1[0])*(pos0[0]-pos1[0])+(pos0[1]-pos1[1])*(pos0[1]-pos1[1])
+            distance=(pos0[0] - pos1[0]) * (pos0[0] - pos1[0]) + (pos0[1] - pos1[1]) * (pos0[1] - pos1[1])
             distance=math.sqrt(distance)
             # cv2.putText(image, str(f'{distance:.0f}'), (cx, cy), font, fontScale, color, thickness, cv2.LINE_AA)
-            if distance<0.2*h:
+            if distance < 0.2 * h:
                 cv2.putText(image, 'good distance', (30, 30), font, fontScale, (0,255,0), thickness, cv2.LINE_AA)
             else:
-                cv2.putText(image, 'move back', (30, 30), font, fontScale, (255, 0, 0), thickness, cv2.LINE_AA)
+                cv2.putText(image, 'move back', (30, 30), font, fontScale, (0, 0, 255), thickness, cv2.LINE_AA)
 
             cv2.circle(image, pos_pointer, 25, (255, 0, 255), cv2.FILLED)
             if (pos_pointer[1] < 0.1 * h):
                 if (first_enter):
                     print('pushing now')
-                    # make_commit()
+                    make_commit()
                     print('out of pushing')
                     first_enter = False
             else:
@@ -86,5 +86,5 @@ while True:
             mpDraw.draw_landmarks(image, handLms, mpHands.HAND_CONNECTIONS)
 
     cv2.imshow("Output", image)
-    if cv2.waitKey(1) == 27:                            # [Esc] for quitting
+    if cv2.waitKey(1) == 27:
         break
