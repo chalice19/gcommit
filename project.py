@@ -12,18 +12,25 @@ directory = '.'
 if len(sys.argv) > 1:
     directory = sys.argv[1]
 
+def fire_and_forget(f):
+    def wrapped(*args, **kwargs):
+        return asyncio.get_event_loop().run_in_executor(None, f, *args, *kwargs)
+
+    return wrapped
+
+@fire_and_forget
 def make_commit():
     os.system('git add ' + directory)
     os.system('git commit -m "Changes in ' + directory + ' pushed by gcommit"')
     os.system('git push')
 
-    notify2.init('gcommit')
+    notify2.init('app name')
     n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
     n.show()
 
 
 cap = cv2.VideoCapture(0)
-mpHands = mp.solutions.hands
+mpHands = mp.solutions.hands    
 hands = mpHands.Hands()
 mpDraw = mp.solutions.drawing_utils
 
@@ -46,7 +53,8 @@ while True:
                     if (cy < 0.1 * h):
                         if (first_enter):
                             print('pushing now')
-                            asyncio.get_event_loop().run_in_executor(None, make_commit())
+                            make_commit()
+                            print('out of pushing')
                             first_enter = False
                     else:
                         first_enter = True
