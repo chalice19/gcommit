@@ -62,6 +62,11 @@ while True:
 
     cv2.rectangle(image, (3, 3), (int(desired_w), int(desired_h)), (34, 123, 249), 3) 
 
+    roi = image[0:rows, -1-cols:-1]
+    image_bg = cv2.bitwise_and(roi, roi, mask = mask)
+    dst = cv2.add(image_bg, img_stretch_fg)
+    image[0:rows, -1-cols:-1] = dst
+
     # checking whether a hand is detected
     if results.multi_hand_landmarks:
         for handLms in results.multi_hand_landmarks: # working with each hand
@@ -82,14 +87,7 @@ while True:
             distance=math.sqrt(distance)
 
             if distance < 0.2 * h:
-                cv2.putText(image, 'Good distance! Stretch your arm to commit.', (260, 30), font, fontScale, (0,255,0), thickness, cv2.LINE_AA)
-
-                roi = image[0:rows, -1-cols:-1]
-                image_bg = cv2.bitwise_and(roi, roi, mask = mask)
-                dst = cv2.add(image_bg,img_stretch_fg)
-                image[0:rows, -1-cols:-1] = dst
-                	
-                cv2.imshow('res',image)
+                cv2.putText(image, 'Good distance! Stretch your arm to commit.', (260, 30), font, fontScale, (119, 167, 156), thickness, cv2.LINE_AA)
 
                 if (pos_pointer[0] < desired_w and pos_pointer[1] < desired_h):
                     cv2.putText(image, 'ok, uploaded', (30, int(h - 30)), font, fontScale, (119, 167, 156), thickness, cv2.LINE_AA)
