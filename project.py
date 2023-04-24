@@ -87,10 +87,10 @@ while True:
             distance=math.sqrt(distance)
 
             if distance < 0.2 * h:
-                cv2.putText(image, 'Now stretch!', (30, int(h - 30)), font, fontScale, (185, 203, 135), thickness, cv2.LINE_AA)
+                text = cv2.putText(image, 'Now stretch!', (30, int(h - 30)), font, fontScale, (185, 203, 135), thickness, cv2.LINE_AA)
 
                 if (pos_pointer[0] < desired_w and pos_pointer[1] < desired_h):
-                    cv2.putText(image, 'ok, uploaded', (int(w - 30), int(h - 30)), font, fontScale, (185, 203, 135), thickness, cv2.LINE_AA)
+                    cv2.putText(image, 'ok, uploaded', (int(w - 100), int(h - 30)), font, fontScale, (185, 203, 135), thickness, cv2.LINE_AA)
                     if (first_enter):
                         print('pushing now')
                         make_commit()
