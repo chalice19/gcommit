@@ -57,8 +57,8 @@ while True:
     results = hands.process(imageRGB)
 
     h, w, c = image.shape
-    desired_h = 0.6 * h
-    desired_w = 0.3 * w
+    desired_h = 0.5 * h
+    desired_w = 0.2 * w
 
     # cv2.rectangle(image, (3, 3), (int(desired_w), int(desired_h)), (34, 123, 249), 3) 
 
