@@ -81,8 +81,6 @@ while True:
                 if id == 8:
                     pos_pointer = (cx, cy)
 
-            # cv2.circle(image, pos_pointer, 10, (0, 0, 255), cv2.FILLED)
-
             distance=(pos0[0] - pos1[0]) * (pos0[0] - pos1[0]) + (pos0[1] - pos1[1]) * (pos0[1] - pos1[1])
             distance=math.sqrt(distance)
 
@@ -91,7 +89,7 @@ while True:
                     cv2.putText(image, 'ok, uploaded', (30, int(h - 30)), font, fontScale, (170, 203, 86), thickness, cv2.LINE_AA)
                     if (first_enter):
                         print('pushing now')
-                        make_commit()
+                        # make_commit()
                         print('out of pushing')
                         first_enter = False
                 else:
