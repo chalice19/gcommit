@@ -25,7 +25,7 @@ def make_commit():
     os.system('git push')
     print('gcommit: done commit and push of ' + directory)
 
-    notify2.init('app name')
+    notify2.init('gcommit')
     n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
     n.show()
 
@@ -56,6 +56,12 @@ while True:
     imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     results = hands.process(imageRGB)
 
+    h, w, c = image.shape
+    desired_h = h // 2
+    desired_w = 0.2 * w
+
+    cv2.rectangle(image, (3, 3), (int(desired_w), int(desired_h)), (34, 123, 249), 3) 
+
     # checking whether a hand is detected
     if results.multi_hand_landmarks:
         for handLms in results.multi_hand_landmarks: # working with each hand
@@ -70,7 +76,7 @@ while True:
                 if id == 8:
                     pos_pointer = (cx, cy)
 
-            cv2.circle(image, pos_pointer, 10, (255, 0, 255), cv2.FILLED)
+            # cv2.circle(image, pos_pointer, 10, (0, 0, 255), cv2.FILLED)
 
             distance=(pos0[0] - pos1[0]) * (pos0[0] - pos1[0]) + (pos0[1] - pos1[1]) * (pos0[1] - pos1[1])
             distance=math.sqrt(distance)
@@ -85,7 +91,8 @@ while True:
                 	
                 cv2.imshow('res',image)
 
-                if (pos_pointer[1] < 0.1 * h):
+                if (pos_pointer[0] < desired_w and pos_pointer[1] < desired_h):
+                    cv2.putText(image, 'ok, uploaded', (30, int(h - 30)), font, fontScale, (119, 167, 156), thickness, cv2.LINE_AA)
                     if (first_enter):
                         print('pushing now')
                         make_commit()
@@ -95,10 +102,14 @@ while True:
                     first_enter = True
 
             else:
-                cv2.putText(image, 'move back', (30, 30), font, fontScale, (0, 0, 255), thickness, cv2.LINE_AA)
+                cv2.putText(image, 'move back', (30, int(h - 30)), font, fontScale, (34, 123, 249), thickness, cv2.LINE_AA)
 
             mpDraw.draw_landmarks(image, handLms, mpHands.HAND_CONNECTIONS)
 
     cv2.imshow("Output", image)
     if cv2.waitKey(1) == 27:                            # [Esc] for quitting
         break
+
+
+cap.release()
+cv2.destroyAllWindows()
