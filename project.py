@@ -1,4 +1,4 @@
-# import notify2
+import notify2
 import sys
 import os
 import math
@@ -25,9 +25,9 @@ def make_commit():
     os.system('git push')
     print('gcommit: done commit and push of ' + directory)
 
-    # notify2.init('gcommit')
-    # n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
-    # n.show()
+    notify2.init('gcommit')
+    n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
+    n.show()
 
 
 cap = cv2.VideoCapture(0)
@@ -62,6 +62,11 @@ while True:
 
     cv2.rectangle(image, (3, 3), (int(desired_w), int(desired_h)), (34, 123, 249), 3) 
 
+    roi = image[0:rows, -1-cols:-1]
+    image_bg = cv2.bitwise_and(roi, roi, mask = mask)
+    dst = cv2.add(image_bg, img_stretch_fg)
+    image[0:rows, -1-cols:-1] = dst
+
     # checking whether a hand is detected
     if results.multi_hand_landmarks:
         for handLms in results.multi_hand_landmarks: # working with each hand
@@ -79,15 +84,8 @@ while True:
             distance=(pos0[0] - pos1[0]) * (pos0[0] - pos1[0]) + (pos0[1] - pos1[1]) * (pos0[1] - pos1[1])
             distance=math.sqrt(distance)
 
-            roi = image[0:rows, -1-cols:-1]
-            image_bg = cv2.bitwise_and(roi, roi, mask = mask)
-            dst = cv2.add(image_bg,img_stretch_fg)
-            image[0:rows, -1-cols:-1] = dst
-
             if distance < 0.2 * h:
-                cv2.putText(image, 'Good distance! Stretch your arm to commit.', (260, 30), font, fontScale, (0,255,0), thickness, cv2.LINE_AA)
-
-                # image[0:rows, -1-cols:-1] = img_stretch
+                cv2.putText(image, 'Good distance! Stretch your arm to commit.', (260, 30), font, fontScale, (119, 167, 156), thickness, cv2.LINE_AA)
 
                 if (pos_pointer[0] < desired_w and pos_pointer[1] < desired_h):
                     cv2.putText(image, 'ok, uploaded', (30, int(h - 30)), font, fontScale, (119, 167, 156), thickness, cv2.LINE_AA)
