@@ -1,4 +1,4 @@
-import notify2
+# import notify2
 import sys
 import os
 import math
@@ -25,15 +25,23 @@ def make_commit():
     os.system('git push')
     print('gcommit: done commit and push of ' + directory)
 
-    notify2.init('app name')
-    n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
-    n.show()
+    # notify2.init('app name')
+    # n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
+    # n.show()
 
 
 cap = cv2.VideoCapture(0)
 mpHands = mp.solutions.hands    
 hands = mpHands.Hands()
 mpDraw = mp.solutions.drawing_utils
+
+img_stretch = cv2.imread('resized.png')
+rows, cols, channels = img_stretch.shape
+img2gray = cv2.cvtColor(img_stretch, cv2.COLOR_BGR2GRAY)
+ret, mask = cv2.threshold(img2gray, 200, 255, cv2.THRESH_BINARY)
+mask_inv = cv2.bitwise_not(mask)
+# Take only region of logo from logo image.
+img_stretch_fg = cv2.bitwise_and(img_stretch, img_stretch, mask = mask_inv)
 
 first_enter = True
 
@@ -44,6 +52,7 @@ thickness = 2
 
 while True:
     success, image = cap.read()
+    # image = cv2.flip(image, 1)
     imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     results = hands.process(imageRGB)
 
@@ -65,14 +74,21 @@ while True:
 
             distance=(pos0[0] - pos1[0]) * (pos0[0] - pos1[0]) + (pos0[1] - pos1[1]) * (pos0[1] - pos1[1])
             distance=math.sqrt(distance)
-            # cv2.putText(image, str(f'{distance:.0f}'), (cx, cy), font, fontScale, color, thickness, cv2.LINE_AA)
+
             if distance < 0.2 * h:
-                cv2.putText(image, 'good distance', (30, 30), font, fontScale, (0,255,0), thickness, cv2.LINE_AA)
+                cv2.putText(image, 'Good distance! Stretch your arm to commit.', (260, 30), font, fontScale, (0,255,0), thickness, cv2.LINE_AA)
+
+                roi = image[0:rows, -1-cols:-1]
+                image_bg = cv2.bitwise_and(roi, roi, mask = mask)
+                dst = cv2.add(image_bg,img_stretch_fg)
+                image[0:rows, -1-cols:-1] = dst
+                	
+                cv2.imshow('res',image)
 
                 if (pos_pointer[1] < 0.1 * h):
                     if (first_enter):
                         print('pushing now')
-                        make_commit()
+                        # make_commit()
                         print('out of pushing')
                         first_enter = False
                 else:
