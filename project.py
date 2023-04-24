@@ -57,10 +57,10 @@ while True:
     results = hands.process(imageRGB)
 
     h, w, c = image.shape
-    desired_h = h // 2
-    desired_w = 0.2 * w
+    desired_h = 0.6 * h
+    desired_w = 0.3 * w
 
-    cv2.rectangle(image, (3, 3), (int(desired_w), int(desired_h)), (34, 123, 249), 3) 
+    # cv2.rectangle(image, (3, 3), (int(desired_w), int(desired_h)), (34, 123, 249), 3) 
 
     roi = image[0:rows, -1-cols:-1]
     image_bg = cv2.bitwise_and(roi, roi, mask = mask)
@@ -86,18 +86,18 @@ while True:
 
             if distance < 0.2 * h:
                 if (pos_pointer[0] < desired_w and pos_pointer[1] < desired_h):
-                    cv2.putText(image, 'ok, uploaded', (30, int(h - 30)), font, fontScale, (170, 203, 86), thickness, cv2.LINE_AA)
+                    cv2.putText(image, 'ok, uploaded', (30, 30), font, fontScale, (170, 203, 86), thickness, cv2.LINE_AA)
                     if (first_enter):
                         print('pushing now')
                         make_commit()
                         print('out of pushing')
                         first_enter = False
                 else:
-                    text = cv2.putText(image, 'Now stretch!', (30, int(h - 30)), font, fontScale, (170, 203, 86), thickness, cv2.LINE_AA)
+                    text = cv2.putText(image, 'Now stretch!', (30, 30), font, fontScale, (170, 203, 86), thickness, cv2.LINE_AA)
                     first_enter = True
 
             else:
-                cv2.putText(image, 'move back', (30, int(h - 30)), font, fontScale, (34, 123, 249), thickness, cv2.LINE_AA)
+                cv2.putText(image, 'move back', (30, 30), font, fontScale, (34, 123, 249), thickness, cv2.LINE_AA)
 
             mpDraw.draw_landmarks(image, handLms, mpHands.HAND_CONNECTIONS)
 

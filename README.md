@@ -3,3 +3,5 @@ Project for the Gestural and Mobile Interaction course of IP Paris. Push changes
 Testing:
 
 My name is Karyna. I want to tst it
+
+I'm Kulakshi and trying to test this
