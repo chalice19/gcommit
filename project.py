@@ -89,7 +89,7 @@ while True:
                     cv2.putText(image, 'ok, uploaded', (30, int(h - 30)), font, fontScale, (170, 203, 86), thickness, cv2.LINE_AA)
                     if (first_enter):
                         print('pushing now')
-                        # make_commit()
+                        make_commit()
                         print('out of pushing')
                         first_enter = False
                 else:
@@ -102,7 +102,7 @@ while True:
             mpDraw.draw_landmarks(image, handLms, mpHands.HAND_CONNECTIONS)
 
     cv2.imshow("Output", image)
-    if cv2.waitKey(1) == 27:                            # [Esc] for quitting
+    if cv2.waitKey(1) == 27:
         break
 
 
