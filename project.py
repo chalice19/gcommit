@@ -69,7 +69,7 @@ while True:
 
     # checking whether a hand is detected
     if results.multi_hand_landmarks:
-        for handLms in results.multi_hand_landmarks: # working with each hand
+        for handLms in results.multi_hand_landmarks[0:]: # working with each hand
             for id, lm in enumerate(handLms.landmark):
                 h, w, c = image.shape
                 cx, cy = int(lm.x * w), int(lm.y * h)
@@ -87,10 +87,10 @@ while True:
             distance=math.sqrt(distance)
 
             if distance < 0.2 * h:
-                cv2.putText(image, 'Good distance! Stretch your arm to commit.', (260, 30), font, fontScale, (135, 203, 185), thickness, cv2.LINE_AA)
+                cv2.putText(image, 'Now stretch!', (30, int(h - 30)), font, fontScale, (185, 203, 135), thickness, cv2.LINE_AA)
 
                 if (pos_pointer[0] < desired_w and pos_pointer[1] < desired_h):
-                    cv2.putText(image, 'ok, uploaded', (30, int(h - 30)), font, fontScale, (135, 203, 185), thickness, cv2.LINE_AA)
+                    cv2.putText(image, 'ok, uploaded', (30, int(h - 30)), font, fontScale, (185, 203, 135), thickness, cv2.LINE_AA)
                     if (first_enter):
                         print('pushing now')
                         make_commit()
