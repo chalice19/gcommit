@@ -1,4 +1,4 @@
-# import notify2
+import notify2
 import sys
 import os
 import math
@@ -25,9 +25,9 @@ def make_commit():
     os.system('git push')
     print('gcommit: done commit and push of ' + directory)
 
-    # notify2.init('app name')
-    # n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
-    # n.show()
+    notify2.init('app name')
+    n = notify2.Notification('GCommit', 'Changes in ' + directory + ' have been pushed')
+    n.show()
 
 
 cap = cv2.VideoCapture(0)
@@ -52,7 +52,7 @@ thickness = 2
 
 while True:
     success, image = cap.read()
-    # image = cv2.flip(image, 1)
+    image = cv2.flip(image, 1)
     imageRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     results = hands.process(imageRGB)
 
@@ -88,7 +88,7 @@ while True:
                 if (pos_pointer[1] < 0.1 * h):
                     if (first_enter):
                         print('pushing now')
-                        # make_commit()
+                        make_commit()
                         print('out of pushing')
                         first_enter = False
                 else:
