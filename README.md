@@ -1,6 +1,6 @@
 # gcommit
 
-Project for the Gestural and Mobile Interaction course of IP Paris. Push changes in your repository while stretching and moving a little bit.
+Project for the Gestural and Mobile Interaction course of IP Paris. Push changes to your repository while stretching and moving a little bit.
 
 gcommit asks users to make a particular streching excersize in order to run a git command. For the beginning, it supports only one movement and only commands to commit and push.
 
